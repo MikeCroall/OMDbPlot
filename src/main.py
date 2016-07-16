@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
-from src.api import get_rating_of_year as rating, get_releases_in_year as releases
-
+from colorama import init, Fore
+from api import get_rating_of_year as rating, get_releases_in_year as releases
+init(autoreset=True)
 
 options = {
     'ratings': {
@@ -18,20 +19,23 @@ options = {
 
 def choose_options():
     while True:
-        print("Please choose a mode:")
-        print("\t0 - average rating by year")
-        print("\t1 - total releases by year")
-        inp = input('Choice: ')
+        print(Fore.GREEN + "Please choose a mode:")
+        print(Fore.GREEN + "\t1 - average rating by year")
+        print(Fore.GREEN + "\t2 - total releases by year")
+        print(Fore.GREEN + "\t0 - exit")
+        inp = input(Fore.GREEN + 'Choice: ')
         try:
             choice = int(inp)
-            if choice == 0:
+            if choice == 1:
                 return 'ratings'
-            elif choice == 1:
+            elif choice == 2:
                 return 'release_count'
+            elif choice == 0:
+                return 'exit'
             else:
-                print('That is not a valid option number\n')
+                print(Fore.RED + 'That is not a valid option number\n')
         except:
-            print('Please enter a valid integer option\n')
+            print(Fore.RED + 'Please enter a valid integer option\n')
 
 
 def collect_data(option):
@@ -40,22 +44,22 @@ def collect_data(option):
     start_year, end_year = min(start_year, end_year), max(start_year, end_year)  # ensures correct way around
     total_years = end_year - start_year
 
-    print("\tquerying from {} to {}".format(start_year, end_year))
+    print(Fore.LIGHTMAGENTA_EX + "\tquerying from {} to {}".format(start_year, end_year))
 
     for year in range(start_year, end_year + 1):
         if option == 'ratings':
-            d[year] = rating(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+            d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
         elif option == 'release_count':
-            d[year] = releases(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+            d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
 
     return d
 
 
 def create_graph(data, option):
     width = 0.5
-    print("\tusing width {}".format(width))
+    print(Fore.LIGHTMAGENTA_EX + "\tusing width {}".format(width))
     opacity = 0.4
-    print("\tusing opacity {}".format(opacity))
+    print(Fore.LIGHTMAGENTA_EX + "\tusing opacity {}".format(opacity))
     years = [i for i in data.keys()]
     ratings = [i for i in data.values()]
     plt.bar(years, ratings, width, color="green", align="center", alpha=opacity)
@@ -68,14 +72,15 @@ def create_graph(data, option):
 def main():
     try:
         option = choose_options()
+        if option == 'exit': return
 
-        print("Gathering data...")
+        print(Fore.LIGHTMAGENTA_EX + "\nGathering data...")
         data = collect_data(option)
 
-        print("Creating graph...")
+        print(Fore.LIGHTMAGENTA_EX + "Creating graph...")
         create_graph(data, option)
 
-        print("Displaying graph...")
+        print(Fore.LIGHTMAGENTA_EX + "Displaying graph...")
         plt.show()
 
     except:
