@@ -28,3 +28,18 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
 6. make a cup of tea and get some biscuits, data collection will take a while.
 
 7. marvel at how consistent average movie statistics have been over the past 10 years.
+
+##Package Dependencies
+
+seaborn, matplotlib
+: both for plotting the results, seaborn purely for styling purposes.
+  
+colorama
+: for easy coloured terminal output without looking awful on windows when ANSI isn't enabled.
+  
+requests
+: for making web requests to retrieve JSON data.
+  
+time
+: to pause the thread to avoid exceeding the API call rate limiter imposed upon us.
+  
