@@ -1,18 +1,17 @@
-from api import get_rating_of_year as rating
+from src.api import get_rating_of_year as rating
+
 
 def collect_data():
     d = {}
-    start_year, end_year = 2005, 2015
-    start_year, end_year = min(start_year, end_year), max(start_year, end_year) # ensures correct way around
+    start_year, end_year = 2006, 2010
+    start_year, end_year = min(start_year, end_year), max(start_year, end_year)  # ensures correct way around
     total_years = end_year - start_year
 
     print("\tquerying from {} to {}".format(start_year, end_year))
 
     for year in range(start_year, end_year + 1):
-        d[year] = rating(year)
-        print("\r\t{:.2f}% complete...".format(100 * (year - start_year) / total_years), end='')
+        d[year] = rating(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
 
-    print("\r\t100% complete")
     return d
 
 

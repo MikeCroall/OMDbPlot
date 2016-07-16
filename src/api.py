@@ -1,4 +1,4 @@
-from secret import get_secret as key
+from src.secret import get_secret as key
 # obviously, I'm keeping secret.py a secret, as it has my secret api_key.
 # however, you can get your own over at https://www.themoviedb.org/documentation/api
 # and simply return it from the method get_secret() in your own secret.py, isn't that great!?
@@ -8,7 +8,7 @@ base_url = 'http://api.themoviedb.org/3/discover/movie?api_key={}&'.format(api_k
 
 import requests, time
 
-def get_rating_of_year(year):
+def get_rating_of_year(year, year_percent_string):
     # preferably, do not print anything here, to avoid breaking progress showing nicely
     pages_in_year = -1
     try:
@@ -22,8 +22,8 @@ def get_rating_of_year(year):
 
         # iterate pages
         movie_ratings = []
-        for page_num in range(1, pages_in_year + 1): # todo progress here instead of just updating per year
-            #print("\n\n PAGE {}\n\n".format(page_num)) # for debugging
+        for page_num in range(1, pages_in_year + 1):
+            print("\r\t\t{} - {:.2f}% complete...".format(year_percent_string, 100 * page_num / pages_in_year), end='')
             r = requests.get(base_url + 'primary_release_year={}&page={}'.format(year, page_num))
             if r.status_code == requests.codes.ok:
                 page_data = r.json()
@@ -35,6 +35,7 @@ def get_rating_of_year(year):
                 time.sleep(0.25) # try to avoid being timed out of api we are calling (MAX 40 calls per 10 seconds)
             else:
                 print("Not-ok status code returned: {}\nwhen finding page {} in year {}".format(r.status_code, page_num, year))
+        print("\r\t\t{} - done".format(year))
 
         # calculate result
         if len(movie_ratings) == 0:
