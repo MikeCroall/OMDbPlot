@@ -38,10 +38,22 @@ def choose_options():
             print(Fore.RED + 'Please enter a valid integer option\n')
 
 
-def collect_data(option):
+def get_valid_year(year_type):
+    while True:
+        inp = input(Fore.GREEN + "Please choose a {} year: ".format(year_type))
+        try:
+            choice = int(inp)
+            if choice < 1800 or choice > 3000:
+                print(Fore.RED + "Please enter a valid year to query")
+            else:
+                return choice
+        except:
+            print(Fore.RED + 'Please enter a valid integer year\n')
+
+
+def collect_data(option, start, end):
     d = {}
-    start_year, end_year = 2000, 2015
-    start_year, end_year = min(start_year, end_year), max(start_year, end_year)  # ensures correct way around
+    start_year, end_year = min(start, end), max(start, end)  # ensures correct way around
     total_years = end_year - start_year
 
     print(Fore.LIGHTMAGENTA_EX + "\tquerying from {} to {}".format(start_year, end_year))
@@ -74,8 +86,10 @@ def main():
         option = choose_options()
         if option == 'exit': return
 
+        start_year, end_year = get_valid_year('start'), get_valid_year('end')
+
         print(Fore.LIGHTMAGENTA_EX + "\nGathering data...")
-        data = collect_data(option)
+        data = collect_data(option, start_year, end_year)
 
         print(Fore.LIGHTMAGENTA_EX + "Creating graph...")
         create_graph(data, option)
