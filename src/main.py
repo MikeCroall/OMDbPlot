@@ -1,15 +1,16 @@
 import matplotlib.pyplot as plt
 from colorama import init, Fore
 from api import get_rating_of_year as rating, get_releases_in_year as releases
+
 init(autoreset=True)
 
 options = {
     'ratings': {
-        'title':"Average film rating (out of 10) by year of release",
-        'xlabel':"Year of release",
-        'ylabel':"Average rating over all films released during given year"
+        'title': "Average film rating (out of 10) by year of release",
+        'xlabel': "Year of release",
+        'ylabel': "Average rating over all films released during given year"
     },
-    'release_count':{
+    'release_count': {
         'title': "Total film release count by year",
         'xlabel': "Year of release",
         'ylabel': "Films released in given year"
@@ -44,7 +45,7 @@ def get_valid_year(year_type):
         try:
             choice = int(inp)
             if choice < 1800 or choice > 3000:
-                print(Fore.RED + "Please enter a valid year to query")
+                print(Fore.RED + "Please enter a valid year to query\n")
             else:
                 return choice
         except:
@@ -60,9 +61,11 @@ def collect_data(option, start, end):
 
     for year in range(start_year, end_year + 1):
         if option == 'ratings':
-            d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+            d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
+            year - start_year) / total_years))
         elif option == 'release_count':
-            d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+            d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
+            year - start_year) / total_years))
 
     return d
 
@@ -96,7 +99,9 @@ def main():
 
         print(Fore.LIGHTMAGENTA_EX + "Displaying graph...")
         plt.show()
-
+    except KeyboardInterrupt as user_cancel:
+        print('')
+        pass
     except:
         print("\n\n\t\tError - in main\n\n")
         raise
