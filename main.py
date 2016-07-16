@@ -1,35 +1,33 @@
-from time import sleep
-
+from api import get_rating_of_year as rating
 
 def collect_data():
-    import random  # todo remove
     d = {}
-    start_year, end_year = 1950, 2017  # ensures all relevant titles, basically
+    start_year, end_year = 2005, 2015
+    start_year, end_year = min(start_year, end_year), max(start_year, end_year) # ensures correct way around
     total_years = end_year - start_year
-    print("\tquerying from {} to {}".format(start_year, end_year))
-    for year in range(start_year, end_year + 1):
-        d[year] = random.randint(0, 100)  # todo api call to get list of ratings, average them
-        print("\r\t{:.2f}% complete...".format(100 * (year - start_year) / total_years), end='')
-    print("\r\t100% complete")
 
-    # data automatically displays in order because of the nature of the dictionary
-    # do not worry about sorting at any point
+    print("\tquerying from {} to {}".format(start_year, end_year))
+
+    for year in range(start_year, end_year + 1):
+        d[year] = rating(year)
+        print("\r\t{:.2f}% complete...".format(100 * (year - start_year) / total_years), end='')
+
+    print("\r\t100% complete")
     return d
 
 
 def create_graph(plt, data):
     width = 0.5
-    print("\tdisplaying with width {}".format(width))
+    print("\tusing width {}".format(width))
     opacity = 0.4
-    print("\tdisplaying with opacity {}".format(opacity))
+    print("\tusing opacity {}".format(opacity))
     years = [i for i in data.keys()]
     ratings = [i for i in data.values()]
     plt.bar(years, ratings, width, color="green", align="center", alpha=opacity)
     plt.xticks(years, data.keys(), rotation='vertical')
     plt.xlabel('Year of release')
     plt.ylabel('Average rating over all films released during given year')
-    plt.title('Average film rating (out of {}) by year of release'.format('{{placeholder}}'))
-    # todo replace placeholder above
+    plt.title('Average film rating (out of 10) by year of release')
 
 
 def main():
@@ -47,8 +45,8 @@ def main():
         print("Displaying graph...")
         plt.show()
 
-    except Exception as ex:
-        print("\n\n\t\tError\n\n")
+    except:
+        print("\n\n\t\tError - in main\n\n")
         raise
 
 
