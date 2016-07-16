@@ -44,4 +44,24 @@ def get_rating_of_year(year, year_percent_string):
     except:
         print("\n\n\t\tError - in finding rating of year {}\n\n".format(year))
         raise
+    finally:
+        return -1
     # todo can I somehow make querying any faster? Please?
+
+
+def get_releases_in_year(year, year_percent_string):
+    print('\t\t{}'.format(year_percent_string))
+    count = 0
+    try:
+        # get pages
+        r = requests.get(base_url + 'primary_release_year={}'.format(year))
+        if r.status_code == requests.codes.ok:
+            data = r.json()
+            count = data['total_results']
+        else:
+            print("Not-ok status code returned: {}\nwhen finding pages in year {}".format(r.status_code, year))
+    except:
+        print("\n\n\t\tError - in finding releases in year {}\n\n".format(year))
+        raise
+    finally:
+        return count

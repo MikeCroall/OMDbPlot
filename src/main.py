@@ -1,21 +1,57 @@
-from src.api import get_rating_of_year as rating
+import matplotlib.pyplot as plt
+from src.api import get_rating_of_year as rating, get_releases_in_year as releases
 
 
-def collect_data():
+options = {
+    'ratings': {
+        'title':"Average film rating (out of 10) by year of release",
+        'xlabel':"Year of release",
+        'ylabel':"Average rating over all films released during given year"
+    },
+    'release_count':{
+        'title': "Total film release count by year",
+        'xlabel': "Year of release",
+        'ylabel': "Films released in given year"
+    }
+}
+
+
+def choose_options():
+    while True:
+        print("Please choose a mode:")
+        print("\t0 - average rating by year")
+        print("\t1 - total releases by year")
+        inp = input('Choice: ')
+        try:
+            choice = int(inp)
+            if choice == 0:
+                return 'ratings'
+            elif choice == 1:
+                return 'release_count'
+            else:
+                print('That is not a valid option number\n')
+        except:
+            print('Please enter a valid integer option\n')
+
+
+def collect_data(option):
     d = {}
-    start_year, end_year = 2006, 2010
+    start_year, end_year = 2000, 2015
     start_year, end_year = min(start_year, end_year), max(start_year, end_year)  # ensures correct way around
     total_years = end_year - start_year
 
     print("\tquerying from {} to {}".format(start_year, end_year))
 
     for year in range(start_year, end_year + 1):
-        d[year] = rating(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+        if option == 'ratings':
+            d[year] = rating(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
+        elif option == 'release_count':
+            d[year] = releases(year, '{} ({:.2f}%)'.format(year, 100 * (year - start_year) / total_years))
 
     return d
 
 
-def create_graph(plt, data):
+def create_graph(data, option):
     width = 0.5
     print("\tusing width {}".format(width))
     opacity = 0.4
@@ -24,22 +60,20 @@ def create_graph(plt, data):
     ratings = [i for i in data.values()]
     plt.bar(years, ratings, width, color="green", align="center", alpha=opacity)
     plt.xticks(years, data.keys(), rotation='vertical')
-    plt.xlabel('Year of release')
-    plt.ylabel('Average rating over all films released during given year')
-    plt.title('Average film rating (out of 10) by year of release')
+    plt.title(options[option]['title'])
+    plt.xlabel(options[option]['xlabel'])
+    plt.ylabel(options[option]['ylabel'])
 
 
 def main():
     try:
-        print("Importing libraries...")
-        import matplotlib.pyplot as plt
-        print("\tmatplotlib.pyplot imported")
+        option = choose_options()
 
         print("Gathering data...")
-        data = collect_data()
+        data = collect_data(option)
 
         print("Creating graph...")
-        create_graph(plt, data)
+        create_graph(data, option)
 
         print("Displaying graph...")
         plt.show()
