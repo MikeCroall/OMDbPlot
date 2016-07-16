@@ -1,6 +1,7 @@
+import seaborn as sns
 import matplotlib.pyplot as plt
 from colorama import init, Fore
-from api import get_rating_of_year as rating, get_releases_in_year as releases
+from api import get_rating_of_year as rating, get_releases_in_year as releases, get_popularity_of_year as popularity
 
 init(autoreset=True)
 
@@ -14,6 +15,11 @@ options = {
         'title': "Total film release count by year",
         'xlabel': "Year of release",
         'ylabel': "Films released in given year"
+    },
+    'popularity': {
+        'title': "Average film popularity (out of 10) by year of release",
+        'xlabel': "Year of release",
+        'ylabel': "Average popularity over all films released during given year"
     }
 }
 
@@ -23,6 +29,7 @@ def choose_options():
         print(Fore.GREEN + "Please choose a mode:")
         print(Fore.GREEN + "\t1 - average rating by year")
         print(Fore.GREEN + "\t2 - total releases by year")
+        print(Fore.GREEN + "\t3 - average popularity by year")
         print(Fore.GREEN + "\t0 - exit")
         inp = input(Fore.GREEN + 'Choice: ')
         try:
@@ -31,6 +38,8 @@ def choose_options():
                 return 'ratings'
             elif choice == 2:
                 return 'release_count'
+            elif choice == 3:
+                return 'popularity'
             elif choice == 0:
                 return 'exit'
             else:
@@ -62,23 +71,21 @@ def collect_data(option, start, end):
     for year in range(start_year, end_year + 1):
         if option == 'ratings':
             d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
-            year - start_year) / total_years))
+                year - start_year) / total_years))
         elif option == 'release_count':
             d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
-            year - start_year) / total_years))
+                year - start_year) / total_years))
+        elif option == 'popularity':
+            d[year] = popularity(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
+                year - start_year) / total_years))
 
     return d
 
 
 def create_graph(data, option):
-    width = 0.5
-    print(Fore.LIGHTMAGENTA_EX + "\tusing width {}".format(width))
-    opacity = 0.4
-    print(Fore.LIGHTMAGENTA_EX + "\tusing opacity {}".format(opacity))
-    years = [i for i in data.keys()]
-    ratings = [i for i in data.values()]
-    plt.bar(years, ratings, width, color="green", align="center", alpha=opacity)
-    plt.xticks(years, data.keys(), rotation='vertical')
+    sns.set_style("whitegrid")
+    bar_plot = sns.barplot(x=[y for y in data.keys()], y=[r for r in data.values()], color='palegreen')
+    plt.xticks(rotation=90)
     plt.title(options[option]['title'])
     plt.xlabel(options[option]['xlabel'])
     plt.ylabel(options[option]['ylabel'])
@@ -99,6 +106,7 @@ def main():
 
         print(Fore.LIGHTMAGENTA_EX + "Displaying graph...")
         plt.show()
+
     except KeyboardInterrupt as user_cancel:
         print('')
         pass
