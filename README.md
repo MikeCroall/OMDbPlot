@@ -8,7 +8,7 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
 ## Usage
 1. download an archive of the repo and extract all, or clone the repo to a destination of your choosing.
 
-2. create a file called `secret.py` in the same directory.
+2. create a file called `secret.py` in the `src` directory.
 
 3. go to [The Movie DB API Docs](https://www.themoviedb.org/documentation/api), create an account, and apply for an API key. This is free, and should be immediately, automatically approved.
 
@@ -21,7 +21,7 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
 
 5. simply run `main.py`:
   ```
-  python /path/to/main.py
+  python /path/to/src/main.py
   ```
 
 6. make a cup of tea and get some biscuits, data collection will take a while.
