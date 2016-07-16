@@ -10,7 +10,7 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
 
 2. create a file called `secret.py` in the same directory.
 
-3. go to `https://www.themoviedb.org/documentation/api`, create an account, and apply for an API key. This is free, and should be immediately, automatically approved.
+3. go to [The Movie DB API Docs](https://www.themoviedb.org/documentation/api), create an account, and apply for an API key. This is free, and should be immediately, automatically approved.
 
 4. create a method inside `secret.py`:
   ```
