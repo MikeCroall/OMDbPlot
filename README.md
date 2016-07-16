@@ -23,7 +23,8 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
   ```
   python /path/to/src/main.py
   ```
-
+  and choose your mode.
+  
 6. make a cup of tea and get some biscuits, data collection will take a while.
 
 7. marvel at how consistent average movie statistics have been over the past 10 years.
