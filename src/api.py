@@ -1,6 +1,7 @@
 import requests, time
 from colorama import init, Fore
 from secret import get_secret as key
+import files
 init(autoreset=True)
 
 # obviously, I'm keeping secret.py a secret, as it has my secret api_key.
@@ -46,8 +47,9 @@ def get_rating_of_year(year, year_percent_string):
     # calculate result
     if len(movie_ratings) == 0:
         return -1
-    return sum(movie_ratings) / len(movie_ratings)
-
+    rating = sum(movie_ratings) / len(movie_ratings)
+    files.save_rating(year, rating)
+    return rating
 
 def get_releases_in_year(year, year_percent_string):
     print('\t\t{}'.format(year_percent_string))
@@ -65,6 +67,8 @@ def get_releases_in_year(year, year_percent_string):
         print(Fore.RED + "\n\n\t\tError - in finding releases in year {}\n\n".format(year))
         raise
     finally:
+        if count != 0:
+            files.save_releases(year, count)
         return count
 
 
@@ -103,4 +107,6 @@ def get_popularity_of_year(year, year_percent_string):
     # calculate result
     if len(movie_popularities) == 0:
         return -1
-    return sum(movie_popularities) / len(movie_popularities)
+    popularity =  sum(movie_popularities) / len(movie_popularities)
+    files.save_popularity(year, popularity)
+    return popularity

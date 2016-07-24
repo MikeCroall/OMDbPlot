@@ -1,4 +1,4 @@
-secret.py
 src/secret.py
 __pycache__/
 .idea/
+src/data/
