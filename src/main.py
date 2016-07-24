@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import shutil, os
 from colorama import init, Fore
 from data import get_rating_of_year as rating, get_releases_in_year as releases, get_popularity_of_year as popularity
 
@@ -30,6 +31,7 @@ def choose_options():
         print(Fore.GREEN + "\t1 - average rating by year")
         print(Fore.GREEN + "\t2 - total releases by year")
         print(Fore.GREEN + "\t3 - average popularity by year")
+        print(Fore.GREEN + "\t9 - wipe locally saved data")
         print(Fore.GREEN + "\t0 - exit")
         inp = input(Fore.GREEN + 'Choice: ')
         try:
@@ -43,6 +45,8 @@ def choose_options():
             elif choice == 3:
                 print("\nYou have chosen average popularity by year")
                 return 'popularity'
+            elif choice == 9:
+                return 'wipe_local_data'
             elif choice == 0:
                 return 'exit'
             else:
@@ -97,18 +101,24 @@ def create_graph(data, option):
 def main():
     try:
         option = choose_options()
+
         if option == 'exit': return
 
-        start_year, end_year = get_valid_year('start'), get_valid_year('end')
+        elif option == 'wipe_local_data':
+            print(Fore.LIGHTRED_EX + "Wiping local data...")
+            shutil.rmtree(os.path.join(os.path.dirname(__file__), 'data'))
+            print(Fore.LIGHTRED_EX + "Local data has been removed")
+        else:
+            start_year, end_year = get_valid_year('start'), get_valid_year('end')
 
-        print(Fore.LIGHTMAGENTA_EX + "\nGathering data...")
-        data = collect_data(option, start_year, end_year)
+            print(Fore.LIGHTMAGENTA_EX + "\nGathering data...")
+            data = collect_data(option, start_year, end_year)
 
-        print(Fore.LIGHTMAGENTA_EX + "Creating graph...")
-        create_graph(data, option)
+            print(Fore.LIGHTMAGENTA_EX + "Creating graph...")
+            create_graph(data, option)
 
-        print(Fore.LIGHTMAGENTA_EX + "Displaying graph...")
-        plt.show()
+            print(Fore.LIGHTMAGENTA_EX + "Displaying graph...")
+            plt.show()
 
     except KeyboardInterrupt as user_cancel:
         print('')
