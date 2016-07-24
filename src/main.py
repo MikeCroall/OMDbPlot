@@ -1,7 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 from colorama import init, Fore
-from api import get_rating_of_year as rating, get_releases_in_year as releases, get_popularity_of_year as popularity
+from data import get_rating_of_year as rating, get_releases_in_year as releases, get_popularity_of_year as popularity
 
 init(autoreset=True)
 
@@ -35,10 +35,13 @@ def choose_options():
         try:
             choice = int(inp)
             if choice == 1:
+                print("\nYou have chosen average rating by year")
                 return 'ratings'
             elif choice == 2:
+                print("\nYou have chosen total release count by year")
                 return 'release_count'
             elif choice == 3:
+                print("\nYou have chosen average popularity by year")
                 return 'popularity'
             elif choice == 0:
                 return 'exit'
@@ -53,7 +56,7 @@ def get_valid_year(year_type):
         inp = input(Fore.GREEN + "Please choose a {} year: ".format(year_type))
         try:
             choice = int(inp)
-            if choice < 1800 or choice > 3000:
+            if choice < 1800 or choice > 3000:  # no movies before 1800, no point querying too many future years with no movies yet
                 print(Fore.RED + "Please enter a valid year to query\n")
             else:
                 return choice
