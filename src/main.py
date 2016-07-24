@@ -76,15 +76,14 @@ def collect_data(option, start, end):
     print(Fore.LIGHTMAGENTA_EX + "\tquerying from {} to {}".format(start_year, end_year))
 
     for year in range(start_year, end_year + 1):
+        percentage = 100 if total_years == 0 else (100 * (year - start_year) / total_years)
+
         if option == 'ratings':
-            d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
-                year - start_year) / total_years))
+            d[year] = rating(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, percentage))
         elif option == 'release_count':
-            d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
-                year - start_year) / total_years))
+            d[year] = releases(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, percentage))
         elif option == 'popularity':
-            d[year] = popularity(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, 100 * (
-                year - start_year) / total_years))
+            d[year] = popularity(year, Fore.LIGHTMAGENTA_EX + '{} ({:.2f}%)'.format(year, percentage))
 
     return d
 
