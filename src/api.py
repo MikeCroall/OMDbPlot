@@ -42,7 +42,7 @@ def get_rating_of_year(year, year_percent_string):
         except:
             print(Fore.RED + "\n\n\t\tError - in finding rating of year {}\n\n".format(year))
             raise
-    print("\r\t\t{} - done                         ".format(year))
+    print("\r\t\t{} - done                         ".format(year_percent_string))
 
     # calculate result
     if len(movie_ratings) == 0:
@@ -102,7 +102,7 @@ def get_popularity_of_year(year, year_percent_string):
         except:
             print(Fore.RED + "\n\n\t\tError - in finding popularity of year {}\n\n".format(year))
             raise
-    print("\r\t\t{} - done                         ".format(year))
+    print("\r\t\t{} - done                         ".format(year_percent_string))
 
     # calculate result
     if len(movie_popularities) == 0:
