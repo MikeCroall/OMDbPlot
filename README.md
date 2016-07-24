@@ -1,5 +1,5 @@
 # OMDbPlot
-A project aiming to plot various movie statistics against year of release, because data is beautiful.
+A project which plots various movie statistics against year of release, because data is beautiful.
 
 Built and tested using Python 3.5.1 on Ubuntu Linux.
 
@@ -25,9 +25,9 @@ Many thanks to [The Movie DB](http://themoviedb.org) for allowing me to use thei
   ```
   and choose your mode.
   
-6. make a cup of tea and get some biscuits, data collection will take a while.
+6. make a cup of tea and get some biscuits, data collection will take a while, though all data collected will be saved for lightning quick plotting next time!
 
-7. marvel at how consistent average movie statistics have been over the past 10 years.
+7. marvel at how consistent average movie statistics have been over the past 10 years (average rating, at least).
 
 ##Package Dependencies
 
@@ -37,6 +37,12 @@ seaborn, matplotlib
 colorama
 : for easy coloured terminal output without looking awful on windows when ANSI isn't enabled.
   
+shutil
+: for recursive deletion of the local data save directory.
+
+os
+: for directory and file checking.
+
 requests
 : for making web requests to retrieve JSON data.
   
