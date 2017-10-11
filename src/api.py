@@ -8,8 +8,8 @@ init(autoreset=True)
 # however, you can get your own over at https://www.themoviedb.org/documentation/api
 # and simply return it from the method get_secret() in your own secret.py, isn't that great!?
 
-api_key = key()
-base_url = 'http://api.themoviedb.org/3/discover/movie?api_key={}&'.format(api_key)
+API_KEY = key()
+base_url = 'http://api.themoviedb.org/3/discover/movie?api_key={}&'.format(API_KEY)
 
 
 def get_rating_of_year(year, year_percent_string):
